@@ -1,4 +1,6 @@
 from django.db import models
+from django.contrib.auth.models import User
+
 
 class University(models.Model):
     university_name = models.CharField(max_length=100, db_index=True)
@@ -8,7 +10,15 @@ class University(models.Model):
     def __str__(self):
         return self.university_name
 
+class Profile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    university = models.ManyToManyField(University)
+    is_teacher = models.BooleanField(default=False)
+    is_student = models.BooleanField(default=False)
+
+
 class Teachers(models.Model):
+    profile = models.OneToOneField(Profile, on_delete=models.CASCADE)
     university = models.ManyToManyField(University)
     name = models.CharField(max_length=150, db_index=True)
     surname = models.CharField(max_length=150, db_index=True)
@@ -20,6 +30,7 @@ class Teachers(models.Model):
         return self.name
 
 class Students(models.Model):
+    profile = models.OneToOneField(Profile, on_delete=models.CASCADE)
     STATUS_CHOICES = (
         (1, 'Active'),
         (2, 'Inactive'),
@@ -35,3 +46,7 @@ class Students(models.Model):
 
     def __str__(self):
         return self.name
+
+
+
+
