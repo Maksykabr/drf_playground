@@ -17,14 +17,6 @@ from dotenv import load_dotenv
 from pathlib import Path
 
 
-# env_path = Path('.') / '.env'
-# if env_path.exists():
-#     from dotenv import load_dotenv
-#     load_dotenv(dotenv_path=env_path)
-# # Build paths inside the project like this: BASE_DIR / 'subdir'.
-# BASE_DIR = Path(__file__).resolve().parent.parent
-
-
 SECRET_KEY = config('SECRET_KEY')
 
 
@@ -50,8 +42,16 @@ INSTALLED_APPS = [
 ]
 
 REST_FRAMEWORK = {
+    'DEFAULT_RENDERER_CLASSES': [
+        'rest_framework.renderers.JSONRenderer',
+        'rest_framework.renderers.BrowsableAPIRenderer',
+    ],
     'DEFAULT_PERMISSION_CLASSES': [
-        # 'rest_framework.permissions.IsAuthenticated',
+        'rest_framework.permissions.AllowAny',
+    ],
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.BasicAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
     ],
 }
 
@@ -63,9 +63,13 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'drf_app.middleware.LoggingMiddleware',
 ]
 
+
 ROOT_URLCONF = 'config.urls'
+
+
 
 TEMPLATES = [
     {
@@ -131,6 +135,7 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+LOGIN_REDIRECT_URL = 'http://127.0.0.1:8000/'
 
 # Internationalization
 # https://docs.djangoproject.com/en/5.0/topics/i18n/
