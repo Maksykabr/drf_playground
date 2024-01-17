@@ -11,8 +11,6 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 import os
 from decouple import config
-from dotenv import load_dotenv
-
 
 from pathlib import Path
 
@@ -20,9 +18,6 @@ from pathlib import Path
 SECRET_KEY = config('SECRET_KEY')
 
 
-# SECRET_KEY = 'django-insecure-k_n493n(=+x3vc&n6p22b)4ot=$#s#703je)^##!*he$q4+8_*'
-
-# SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
 ALLOWED_HOSTS = []
@@ -98,29 +93,14 @@ WSGI_APPLICATION = 'config.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        # 'NAME' : os.getenv('NAME'),
-        # 'USER': os.getenv('USER'),
-        # 'PASSWORD': os.getenv('PASSWORD'),
-        # 'HOST': os.getenv('HOST'),
-        # 'PORT': os.getenv('PORT'),
 
-
-        'NAME': 'drf_playground_1',
-        'USER': 'postgres',
-        'PASSWORD': 'vfhcbv',
-        'HOST': 'localhost',
-        'PORT': '5432',
+        'NAME': config('NAME'),
+        'USER': config('USER'),
+        'PASSWORD': config('PASSWORD'),
+        'HOST': config('HOST'),
+        'PORT': config('PORT'),
     }
 }
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': BASE_DIR / 'db.sqlite3',
-#     }
-# }
-
-# Password validation
-# https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
 
 AUTH_PASSWORD_VALIDATORS = [
     {

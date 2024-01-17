@@ -11,7 +11,6 @@ from rest_framework import status
 from .permissions import IsAdmin, IsUser
 from .models import University, Profile, User
 from .serializers import UniversitySerializer, ProfileSerializer, UserSerializer
-# from .permissions import IsStudent, IsTeacher, IsAdmin, IsUser, NewUser
 
 
 class UniversityViewsSet(mixins.CreateModelMixin,
@@ -65,12 +64,3 @@ class LoginView(APIView):
         else:
             return Response({'message': 'Invalid credentials'}, status=400)
     permission_class = (AllowAny,)
-
-# class UserCreateView(APIView):
-#     def post(self, request):
-#         serializer = UserRegistrationSerializer(data=request.data)
-#         if serializer.is_valid():
-#             serializer.save()
-#             return Response(serializer.data, status=status.HTTP_201_CREATED)
-#         # return response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-#         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

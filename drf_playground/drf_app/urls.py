@@ -5,15 +5,11 @@ from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 import rest_framework
 
 
-
 router = routers.SimpleRouter()
 router.register(r'universities', views.UniversityViewsSet)
 router.register(r'profiles', views.ProfilesViewsSet)
 router.register(r'userCreate', views.UserCreateView)
 router.register(r'usersList', views.UsersViewsSet)
-
-
-
 
 
 urlpatterns = [

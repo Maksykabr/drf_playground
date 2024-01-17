@@ -10,10 +10,6 @@ class IsUser(BasePermission):
             return False
 
     def has_object_permission(self, request, veiw):
-        # if request.method == 'DELETE' and obj.user.profile.is_student:
-        #     return False
-        # elif request.method == 'DELETE' and obj.user.profile.is_teacher:
-        #     return True
         
         return True
 
