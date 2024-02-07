@@ -1,5 +1,6 @@
 from rest_framework import serializers
-from .models import University, Teachers, Students
+from .models import University, Profile, User
+from django.contrib.auth.hashers import make_password
 
 
 class UniversitySerializer(serializers.ModelSerializer):
@@ -8,13 +9,22 @@ class UniversitySerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
-class TeachersSerializer(serializers.ModelSerializer):
+
+class ProfileSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Teachers
+        model = Profile
         fields = '__all__'
 
 
-class StudentsSerializer(serializers.ModelSerializer):
+class UserSerializer(serializers.ModelSerializer):
+
+    def validate_password(self, value: str) -> str:
+        return make_password(value)
+
+
     class Meta:
-        model = Students
+        model = User
         fields = '__all__'
+
+    
+

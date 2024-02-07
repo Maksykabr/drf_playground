@@ -11,32 +11,18 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 import os
 from decouple import config
-from dotenv import load_dotenv
-
 
 from pathlib import Path
 
 
-# env_path = Path('.') / '.env'
-# if env_path.exists():
-#     from dotenv import load_dotenv
-#     load_dotenv(dotenv_path=env_path)
-# # Build paths inside the project like this: BASE_DIR / 'subdir'.
-# BASE_DIR = Path(__file__).resolve().parent.parent
-
-
 SECRET_KEY = config('SECRET_KEY')
 
+BASE_DIR = Path(__file__).resolve().parent.parent
 
-# SECRET_KEY = 'django-insecure-k_n493n(=+x3vc&n6p22b)4ot=$#s#703je)^##!*he$q4+8_*'
-
-# SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
 ALLOWED_HOSTS = []
 
-
-# Application definition
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -46,8 +32,24 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'drf_app.apps.DrfAppConfig',
-    'rest_framework'
+    'rest_framework',
+    'rest_framework.authtoken',
 ]
+
+REST_FRAMEWORK = {
+    'DEFAULT_RENDERER_CLASSES': [
+        'rest_framework.renderers.JSONRenderer',
+        'rest_framework.renderers.BrowsableAPIRenderer',
+    ],
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.AllowAny',
+    ],
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.BasicAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ],
+}
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -57,9 +59,13 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'drf_app.middleware.LoggingMiddleware',
 ]
 
+
 ROOT_URLCONF = 'config.urls'
+
+
 
 TEMPLATES = [
     {
@@ -79,36 +85,18 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'config.wsgi.application'
 
-
-# Database
-# https://docs.djangoproject.com/en/5.0/ref/settings/#databases
-
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        # 'NAME' : os.getenv('NAME'),
-        # 'USER': os.getenv('USER'),
-        # 'PASSWORD': os.getenv('PASSWORD'),
-        # 'HOST': os.getenv('HOST'),
-        # 'PORT': os.getenv('PORT'),
 
-
-        'NAME': 'drf_playground_1',
-        'USER': 'postgres',
-        'PASSWORD': 'vfhcbv',
-        'HOST': 'localhost',
-        'PORT': '5432',
+        'NAME': config('DB_NAME'),
+        'USER': config('DB_USER'),
+        'PASSWORD': config('DB_PASSWORD'),
+        'HOST': config('DB_HOST'),
+        'PORT': config('DB_PORT'),
     }
 }
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': BASE_DIR / 'db.sqlite3',
-#     }
-# }
 
-# Password validation
-# https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
 
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -125,6 +113,7 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+LOGIN_REDIRECT_URL = 'http://127.0.0.1:8000/'
 
 # Internationalization
 # https://docs.djangoproject.com/en/5.0/topics/i18n/
