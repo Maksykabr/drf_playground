@@ -19,7 +19,6 @@ class ProfileSerializer(serializers.ModelSerializer):
 class UserSerializer(serializers.ModelSerializer):
 
     def validate_password(self, value: str) -> str:
-
         return make_password(value)
 
 

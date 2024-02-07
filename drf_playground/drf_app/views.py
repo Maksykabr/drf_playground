@@ -50,12 +50,10 @@ class UserCreateView(mixins.CreateModelMixin, GenericViewSet):
     queryset = User.objects.all()
     serializer_class = UserSerializer
     permission_class = (AllowAny,)
-    # authentication_classes = [SessionAuthentication]
 
 
 class LoginView(APIView):
     def post(self, request, *args, **kwargs):
-        # Perform authentication (e.g., using Django's built-in authenticate() function)
         user = authenticate(request, username=request.data.get('username'), password=request.data.get('password'))
 
         if user is not None:

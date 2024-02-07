@@ -6,7 +6,6 @@ class LoggingMiddleware:
 
     def __call__(self, request):
         response = self.get_response(request)
-        # Log information about the request and response
         logging.info(f'Request: {request.method} {request.path}')
         logging.info(f'Response: {response.status_code}')
         return response
